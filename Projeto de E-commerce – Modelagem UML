@@ -1,0 +1,153 @@
+📦 Projeto de E-commerce – Modelagem UML
+📌 Escopo
+
+O projeto busca estruturar um sistema de e-commerce para venda de produtos, envolvendo clientes, fornecedores, estoque, pedidos e funcionalidades complementares como pagamento e entrega.
+
+📖 Levantamento de Requisitos
+Produto
+
+Os produtos são vendidos por uma única plataforma online.
+
+Os produtos podem ter fornecedores diferentes (terceiros).
+
+Cada produto possui um fornecedor.
+
+Um ou mais produtos podem compor um pedido.
+
+Cliente
+
+O cliente pode se cadastrar com CPF ou CNPJ.
+
+O endereço do cliente determina o valor do frete.
+
+Um cliente pode realizar vários pedidos.
+
+Existe um período de carência para devolução do produto.
+
+Pedido
+
+Criado por clientes e contém informações de compra, endereço e status de entrega.
+
+Um pedido pode conter um ou mais produtos.
+
+O pedido pode ser cancelado.
+
+Fornecedor e Estoque
+
+Cada produto tem um fornecedor associado.
+
+O estoque controla a quantidade e localização do produto.
+
+📊 Diagrama de Aulas – Versão Aprimorada
+
+Inclui as principais entidades e relacionamentos do sistema:
+
+Usuário (autenticação)
+
+Cliente (herda de usuário)
+
+Produto
+
+Categoria (classificação de produtos)
+
+Avaliação (feedback dos clientes)
+
+Pedido (composição de produtos, gera entrega e pagamento)
+
+Carrinho de Compras (etapa antes do pedido)
+
+Pagamento
+
+Entrega
+
+Fornecedor
+
+Estoque
+
+📐 UML (PlantUML)
+@startuml
+class Usuário {
+
+id: int
+e-mail: string
+senha: string
+autenticar(): bool
+}
+classe Cliente {
+
+cpf_cnpj: sequência de caracteres
+endereco: corda
+cadastrar(): void
+}
+classe Produto {
+
+id: int
+nome: string
+preço: decimal
+descrição: string
+}
+classe Categoria {
+
+id: int
+nome: string
+}
+classe Avaliação {
+
+id: int
+nota: int
+comentário: string
+}
+classe Pedido {
+
+id: int
+dados: data
+status: sequência de caracteres
+valorTotal: decimal
+calcularTotal(): decimal
+}
+classe CarrinhoDeCompras {
+
+id: int
+dataCriacao: data
+adicionarProduto(): void
+removerProduto(): void
+}
+classe Pagamento {
+
+id: int
+tipo: string
+valor: decimal
+status: sequência de caracteres
+processador(): bool
+}
+classe Entrega {
+
+id: int
+enderecoEntrega: string
+statusEntrega: string
+dataPrevista: data
+}
+classe Fornecedor {
+
+id: int
+nome: string
+cnpj: sequência de caracteres
+}
+classe Estoque {
+
+id: int
+quantidade: int
+localização: string
+}
+Usuario <|-- Cliente
+Produto --> Fornecedor : fornecido por
+Produto --> Categoria : pertence a >
+Produto "1" --> " " Avaliação : recebe >
+Pedido --> " " Produto : contém >
+Pedido --> "1" Pagamento : possui >
+Pedido --> "1" Entrega : gera >
+Cliente "1" --> " " Pedido : realiza >
+Cliente "1" --> "1" CarrinhoDeCompras : mantém >
+CarrinhoDeCompras --> " " Produto : adicional >
+Estoque "1" --> "1" Produto : controle >
+@enduml
